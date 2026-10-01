@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🚀 Misi Galaksi Atom — Konfigurasi Elektron Model Atom Bohr</title>
+<style>
+/* ============================================================
+   TEMA WARNA & DASAR
+   ============================================================ */
+:root{
+  --bg:#070a1f;
+  --card:#11162e;
+  --border:#222a52;
+  --primary:#4fc3f7;
+  --secondary:#00897b;
+  --gold:#ff8f00;
+  --error:#ef5350;
+  --success:#4caf50;
+  --text:#e8eaf6;
+  --muted:#9aa3c7;
+  --shell1:#4fc3f7;
+  --shell2:#00897b;
+  --shell3:#ffb74d;
+  --shell4:#ba68c8;
+  --shell5:#ef5350;
+  --shell6:#26c6da;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  position:relative;
+  padding-bottom:84px;
+  background:radial-gradient(circle at 50% 0%,#0d1330 0%,#070a1f 60%);
+}
+
+/* ============================================================
+   HEADER STICKY
+   ============================================================ */
+.app-header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(135deg,#0d2a5e,#08453f);
+  border-bottom:1px solid var(--border);
+  padding:14px 16px 12px;
+  box-shadow:0 4px 18px rgba(0,0,0,.45);
+}
+.app-header h1{
+  margin:0;font-size:18px;letter-spacing:.3px;
+  background:linear-gradient(90deg,#4fc3f7,#7ff5e0,#ffd54f);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:800;
+}
+.app-header p{
+  margin:4px 0 0;font-size:11px;color:#a9c4e8;letter-spacing:.2px;
+}
+
+/* ============================================================
+   HALAMAN & ANIMASI
+   ============================================================ */
+.page{display:none;padding:14px 14px 8px;}
+.page.active{display:block;animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+@keyframes bounce{0%{transform:scale(.4);opacity:0;}60%{transform:scale(1.15);opacity:1;}100%{transform:scale(1);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* ============================================================
+   KARTU
+   ============================================================ */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+.card h2{margin:0 0 8px;font-size:15px;color:var(--primary);}
+.card h3{margin:0 0 8px;font-size:14px;color:#ffd54f;}
+.card p{margin:6px 0;font-size:13px;line-height:1.65;color:#cfd6f2;}
+.card ul,.card ol{margin:6px 0;padding-left:20px;font-size:13px;line-height:1.7;color:#cfd6f2;}
+.card li{margin-bottom:5px;}
+.muted{color:var(--muted);font-size:12px;}
+.hl{color:#ffd54f;font-weight:700;}
+.mono{font-family:'Courier New',monospace;color:#7ff5e0;font-weight:700;letter-spacing:.5px;}
+
+/* Tabel materi */
+table.mat{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px;}
+table.mat th,table.mat td{
+  border:1px solid var(--border);padding:7px 6px;text-align:center;
+}
+table.mat th{background:#182046;color:#8fd8ff;font-weight:700;}
+table.mat td{color:#dfe4fb;}
+
+/* Kotak rumus */
+.rumus{
+  background:#0b1230;border:1px dashed #2f3d75;border-radius:12px;
+  padding:10px;text-align:center;margin:8px 0;
+  font-family:'Courier New',monospace;font-size:15px;color:#7ff5e0;font-weight:700;
+}
+
+/* ============================================================
+   LATIHAN (PRACTICE SET)
+   ============================================================ */
+.practice-item{
+  border:1px solid var(--border);border-radius:12px;padding:10px;
+  margin-bottom:8px;background:#0c1130;
+}
+.practice-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.practice-head .q{font-size:13px;color:#dfe4fb;flex:1;}
+.practice-head .q b{color:#ffd54f;}
+.eye-btn{
+  background:#1a2350;border:1px solid #33408a;color:#8fd8ff;
+  border-radius:9px;padding:6px 10px;font-size:13px;cursor:pointer;
+  transition:transform .12s;
+}
+.eye-btn:active{transform:scale(.94);}
+.practice-ans{
+  display:none;margin-top:8px;padding-top:8px;border-top:1px dashed #2a3364;
+  font-size:12.5px;color:#7ff5e0;font-family:'Courier New',monospace;line-height:1.7;
+}
+.practice-ans.show{display:block;animation:fade .25s ease;}
+
+/* ============================================================
+   CANVAS 3D
+   ============================================================ */
+.canvas-wrap{
+  position:relative;width:100%;height:340px;border-radius:16px;
+  overflow:hidden;border:1px solid var(--border);
+  background:radial-gradient(circle at 50% 45%,#0a1030 0%,#04060f 75%);
+  margin-bottom:12px;
+}
+.canvas-wrap canvas{display:block;}
+.atom-info{
+  position:absolute;top:10px;left:10px;z-index:5;
+  background:rgba(8,12,32,.78);border:1px solid #2b3a78;
+  border-radius:12px;padding:8px 11px;backdrop-filter:blur(6px);
+  pointer-events:none;min-width:78px;
+}
+.atom-info .atom-sym{font-size:22px;font-weight:800;color:#ffd54f;line-height:1.1;}
+.atom-info .atom-sub{font-size:11px;color:#8fd8ff;margin-top:2px;}
+.atom-info .atom-cfg{font-size:12px;color:#7ff5e0;font-family:'Courier New',monospace;margin-top:3px;font-weight:700;}
+.cam-controls{
+  position:absolute;bottom:10px;right:10px;z-index:5;display:flex;gap:7px;
+}
+.ctrl-btn{
+  width:38px;height:38px;border-radius:11px;
+  background:rgba(20,28,66,.85);border:1px solid #33408a;color:#cfe4ff;
+  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:transform .12s;
+}
+.ctrl-btn:active{transform:scale(.92);}
+.ctrl-btn.on{background:#0d4f45;border-color:#00897b;}
+
+/* Grid unsur */
+.el-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+}
+.el-btn{
+  aspect-ratio:1;border-radius:11px;
+  background:#131a3e;border:1px solid #28326b;color:#cfe0ff;
+  font-size:12.5px;font-weight:700;cursor:pointer;
+  transition:transform .12s,background .18s,border-color .18s;
+  font-family:'Segoe UI',sans-serif;
+}
+.el-btn:active{transform:scale(.93);}
+.el-btn.active{
+  background:linear-gradient(135deg,#0d5f8a,#00897b);
+  border-color:#4fc3f7;color:#fff;
+  box-shadow:0 0 12px rgba(79,195,247,.55);
+}
+
+/* Distribusi elektron */
+.dist-row{
+  display:flex;align-items:center;gap:8px;margin-bottom:7px;
+  font-size:12px;
+}
+.dist-shell{min-width:60px;color:#8fd8ff;font-weight:700;}
+.dist-dots{
+  flex:1;color:#4fc3f7;letter-spacing:1.5px;font-size:11px;
+  word-break:break-all;line-height:1.5;
+}
+.dist-num{color:#ffd54f;font-weight:800;font-family:'Courier New',monospace;}
+
+/* ============================================================
+   BOTTOM NAVIGATION
+   ============================================================ */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:480px;display:flex;z-index:60;
+  background:#0a0e24;border-top:1px solid var(--border);
+  box-shadow:0 -6px 20px rgba(0,0,0,.5);
+}
+.nav-btn{
+  flex:1;background:none;border:none;color:#6d78a8;
+  padding:9px 2px 11px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-family:inherit;transition:color .2s,background .2s;
+}
+.nav-btn span{font-size:19px;line-height:1;}
+.nav-btn small{font-size:10px;font-weight:600;}
+.nav-btn.active{
+  color:#4fc3f7;
+  background:linear-gradient(180deg,rgba(79,195,247,.12),transparent);
+  border-top:2px solid #4fc3f7;
+  margin-top:-2px;
+}
+
+/* ============================================================
+   TOMBOL
+   ============================================================ */
+.btn{
+  border:none;border-radius:12px;padding:12px 16px;font-size:13.5px;
+  font-weight:700;cursor:pointer;font-family:inherit;
+  transition:transform .12s,filter .18s;width:100%;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:linear-gradient(135deg,#ff8f00,#ffb300);color:#1a1000;box-shadow:0 4px 14px rgba(255,143,0,.32);}
+.btn-blue{background:linear-gradient(135deg,#1565c0,#4fc3f7);color:#04101f;box-shadow:0 4px 14px rgba(79,195,247,.3);}
+.btn-teal{background:linear-gradient(135deg,#00695c,#00897b);color:#eafffb;}
+.btn-ghost{background:#151c3d;color:#a9b6e0;border:1px solid var(--border);}
+.btn-row{display:flex;gap:8px;margin-top:10px;}
+.btn-row .btn{flex:1;}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;top:14px;left:50%;transform:translate(-50%,-140%);
+  background:#161f4a;border:1px solid #33408a;color:#dbe6ff;
+  padding:11px 18px;border-radius:12px;font-size:13px;z-index:999;
+  transition:transform .35s cubic-bezier(.2,1.4,.4,1);
+  max-width:88%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.55);
+  pointer-events:none;font-weight:600;
+}
+.toast.show{transform:translate(-50%,0);}
+
+/* ============================================================
+   PETUNJUK & INFO BOX
+   ============================================================ */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.info-box{
+  background:linear-gradient(140deg,#141b40,#0e1430);
+  border:1px solid var(--border);border-radius:14px;
+  padding:11px 10px;text-align:center;
+}
+.info-box .ic{font-size:20px;}
+.info-box .val{font-size:15px;font-weight:800;color:#ffd54f;margin-top:3px;}
+.info-box .lbl{font-size:10.5px;color:var(--muted);margin-top:2px;}
+
+.hint-box{
+  background:#1a1440;border:1px solid #4a3a8a;border-radius:12px;
+  padding:10px;font-size:12.5px;color:#d8c9ff;margin-top:10px;
+}
+.hint-box b{color:#ffd54f;}
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+input[type="text"],.fill-input{
+  width:100%;background:#0a0f2a;border:1px solid #2b3670;border-radius:12px;
+  padding:13px 14px;color:#e8eaf6;font-size:14px;font-family:inherit;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+input[type="text"]:focus,.fill-input:focus{
+  border-color:#4fc3f7;box-shadow:0 0 0 3px rgba(79,195,247,.15);
+}
+label.lbl{display:block;font-size:12px;color:#8fd8ff;margin-bottom:6px;font-weight:700;}
+
+/* ============================================================
+   DASHBOARD MISI
+   ============================================================ */
+.xp-wrap{margin:10px 0 4px;}
+.xp-label{
+  display:flex;justify-content:space-between;font-size:11.5px;
+  color:#8fd8ff;font-weight:700;margin-bottom:6px;
+}
+.xp-bar{
+  height:14px;background:#0a0f2a;border:1px solid #2b3670;
+  border-radius:9px;overflow:hidden;
+}
+.xp-fill{
+  height:100%;width:0%;border-radius:9px;
+  background:linear-gradient(90deg,#4fc3f7,#00897b,#4fc3f7);
+  background-size:200% 100%;
+  animation:shimmer 2.2s linear infinite;
+  transition:width .6s cubic-bezier(.2,1,.3,1);
+}
+.badge-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px;}
+.badge{
+  border-radius:12px;padding:8px 5px;text-align:center;
+  background:#0c1130;border:1px solid #232b58;
+  opacity:.38;filter:grayscale(1);transition:all .3s;
+}
+.badge.earned{
+  opacity:1;filter:none;
+  background:linear-gradient(140deg,#1c2a5e,#123a44);
+  border-color:#3f8fd0;box-shadow:0 0 10px rgba(79,195,247,.25);
+}
+.badge span{font-size:19px;display:block;line-height:1.2;}
+.badge small{font-size:9px;color:#a9b6e0;display:block;margin-top:3px;line-height:1.25;}
+
+/* Peta level */
+.level-card{
+  display:flex;align-items:center;gap:11px;
+  background:#0e1434;border:1px solid var(--border);border-radius:14px;
+  padding:12px;margin-bottom:9px;cursor:pointer;
+  transition:transform .13s,border-color .2s,background .2s;
+}
+.level-card:active{transform:scale(.985);}
+.level-card.locked{opacity:.5;cursor:not-allowed;}
+.level-card.ready{border-color:#ff8f00;background:linear-gradient(120deg,#1a1a30,#241a10);}
+.level-card.done{border-color:#00897b;background:linear-gradient(120deg,#0d1c28,#0e2a26);}
+.level-ic{font-size:24px;min-width:32px;text-align:center;}
+.level-info{flex:1;min-width:0;}
+.level-info .t{font-size:13px;font-weight:700;color:#e8eaf6;}
+.level-info .s{font-size:10.5px;color:var(--muted);margin-top:2px;}
+.level-status{font-size:11px;font-weight:800;white-space:nowrap;}
+
+/* ============================================================
+   KUIS
+   ============================================================ */
+.dots{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.dot{
+  width:12px;height:12px;border-radius:50%;background:#232b58;
+  transition:background .25s;
+}
+.dot.correct{background:var(--success);box-shadow:0 0 7px rgba(76,175,80,.65);}
+.dot.wrong{background:var(--error);box-shadow:0 0 7px rgba(239,83,80,.6);}
+.dot.active{background:#4fc3f7;animation:pulse 1.2s infinite;}
+
+.q-meta{font-size:11px;color:#8fd8ff;font-weight:700;margin-bottom:8px;}
+.q-text{font-size:14px;line-height:1.65;color:#eef1ff;margin-bottom:12px;font-weight:600;}
+
+.options{display:flex;flex-direction:column;gap:8px;}
+.opt{
+  background:#131a3e;border:1px solid #28326b;color:#dfe4fb;
+  border-radius:12px;padding:12px 13px;font-size:13px;text-align:left;
+  cursor:pointer;font-family:inherit;transition:transform .12s,background .2s,border-color .2s;
+  line-height:1.45;
+}
+.opt:active{transform:scale(.98);}
+.opt.correct{background:#0f3a1c;border-color:#4caf50;color:#b6f5c4;}
+.opt.wrong{background:#3a1014;border-color:#ef5350;color:#ffc4c6;}
+.opt:disabled{cursor:default;}
+
+.fill-row{display:flex;flex-direction:column;gap:8px;}
+
+.feedback{margin-top:12px;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.65;animation:fade .3s ease;}
+.feedback.ok{background:#0e2f18;border:1px solid #2e7d43;color:#b8f2c6;}
+.feedback.no{background:#2e0e12;border:1px solid #8a3038;color:#ffc3c6;}
+.feedback b{color:#ffd54f;}
+
+.quiz-actions{display:flex;gap:8px;margin-top:12px;}
+.quiz-actions .btn{flex:1;font-size:12px;padding:11px 8px;}
+
+/* Hasil level */
+.result-emoji{font-size:56px;text-align:center;animation:bounce .6s ease;margin:8px 0;}
+.result-title{text-align:center;font-size:20px;font-weight:800;color:#ffd54f;margin-bottom:6px;}
+.result-score{text-align:center;font-size:34px;font-weight:900;color:#4fc3f7;font-family:'Courier New',monospace;}
+.result-sub{text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+.result-badge{
+  text-align:center;background:linear-gradient(135deg,#1c2a5e,#123a44);
+  border:1px solid #3f8fd0;border-radius:14px;padding:12px;margin-bottom:12px;
+}
+.result-badge .bic{font-size:28px;}
+.result-badge .bname{font-size:13px;font-weight:800;color:#ffd54f;margin-top:4px;}
+
+/* ============================================================
+   SERTIFIKAT
+   ============================================================ */
+.locked-cert{text-align:center;padding:34px 16px;}
+.locked-cert .ic{font-size:64px;opacity:.55;}
+.locked-cert h2{font-size:17px;color:#8fd8ff;margin:14px 0 8px;}
+.locked-cert p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:18px;}
+
+.cert-wrap{padding:0 0 16px;}
+.cert{
+  background:linear-gradient(160deg,#fefdf7,#fff8e1,#fefdf7);
+  border:3px double #b8860b;
+  border-radius:10px;
+  padding:20px 16px 16px;
+  position:relative;
+  box-shadow:0 10px 34px rgba(0,0,0,.55), inset 0 0 0 1px #d4af37;
+  color:#3b2a05;
+  overflow:hidden;
+}
+.cert::before{
+  content:'';position:absolute;inset:8px;border:1px solid #d4af37;
+  border-radius:6px;pointer-events:none;
+}
+.cert-inner{position:relative;z-index:2;}
+.cert-head{text-align:center;margin-bottom:12px;}
+.cert-head .atom-ic{font-size:32px;line-height:1;}
+.cert-head .school{
+  font-size:13.5px;font-weight:900;letter-spacing:1.2px;color:#7a5600;
+  margin-top:6px;
+}
+.cert-head .akred{font-size:9.5px;letter-spacing:2px;color:#a08040;margin-top:2px;font-weight:700;}
+.cert-line{height:2px;background:linear-gradient(90deg,transparent,#d4af37,transparent);margin:10px 0;}
+
+.cert-title{
+  text-align:center;font-size:17px;font-weight:900;letter-spacing:1.6px;
+  color:#8a6100;margin:6px 0 2px;
+}
+.cert-subtitle{
+  text-align:center;font-size:10.5px;font-style:italic;color:#a08040;margin-bottom:14px;
+}
+.cert-give{text-align:center;font-size:11px;color:#7a6030;margin-bottom:6px;}
+.cert-name{
+  text-align:center;font-size:23px;font-weight:900;color:#5c4100;
+  padding:4px 10px 7px;margin:0 auto 12px;max-width:100%;
+  border-bottom:2px solid #d4af37;display:inline-block;
+  word-break:break-word;line-height:1.25;
+}
+.cert-name-wrap{text-align:center;}
+.cert-desc{
+  font-size:11.5px;line-height:1.8;text-align:center;color:#5c4a20;
+  margin:0 4px 14px;
+}
+.score-row{display:flex;gap:8px;margin-bottom:14px;}
+.score-box{
+  flex:1;border:1.5px solid #d4af37;border-radius:8px;
+  padding:9px 4px;text-align:center;background:rgba(255,255,255,.5);
+}
+.score-box .sl{font-size:8.5px;letter-spacing:1.2px;color:#a08040;font-weight:800;}
+.score-box .sv{font-size:19px;font-weight:900;margin-top:3px;font-family:'Courier New',monospace;}
+.sv.pred-a{color:#1b7a34;}
+.sv.pred-b{color:#1565c0;}
+.sv.pred-c{color:#e07b00;}
+.sv.pred-d{color:#c62828;}
+
+.cert-appre{
+  background:rgba(212,175,55,.13);border-left:3px solid #d4af37;
+  border-radius:6px;padding:10px 11px;font-size:11px;line-height:1.75;
+  color:#5c4a20;font-style:italic;margin-bottom:13px;
+}
+.cert-badges-t{font-size:9.5px;letter-spacing:1.4px;color:#a08040;font-weight:800;margin-bottom:7px;}
+.cert-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.cert-badge-pill{
+  background:linear-gradient(135deg,#fff3cf,#ffe9a8);
+  border:1px solid #d4af37;border-radius:20px;
+  padding:4px 10px;font-size:9.5px;color:#6b4f00;font-weight:700;
+  white-space:nowrap;
+}
+.cert-footer{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:8px;padding-top:8px;
+}
+.cert-date{font-size:11px;color:#5c4a20;font-weight:600;}
+.cert-date small{display:block;font-size:9px;color:#a08040;margin-bottom:2px;letter-spacing:.6px;}
+.cert-seal{
+  width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe9a8,#d4af37 55%,#a67c00);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;transform:rotate(-15deg);
+  box-shadow:0 3px 12px rgba(140,110,0,.45), inset 0 0 0 2px rgba(255,255,255,.45);
+  border:2px solid #b8860b;
+  flex-shrink:0;
+}
+
+/* ============================================================
+   RESPONSIVE KECIL
+   ============================================================ */
+@media (max-width:360px){
+  .app-header h1{font-size:16px;}
+  .app-header p{font-size:10px;}
+  .card{padding:12px;}
+  .canvas-wrap{height:290px;}
+  .el-grid{grid-template-columns:repeat(5,1fr);}
+  .badge-row{grid-template-columns:repeat(2,1fr);}
+  .cert-name{font-size:19px;}
+  .score-box .sv{font-size:16px;}
+  .nav-btn small{font-size:9px;}
+}
+
+/* ============================================================
+   PRINT — HANYA SERTIFIKAT
+   ============================================================ */
+@media print{
+  body{background:#fff !important;display:block !important;}
+  .app{padding-bottom:0 !important;max-width:100% !important;background:#fff !important;}
+  .app-header,.bottom-nav,.no-print,.toast{display:none !important;}
+  .page{display:none !important;padding:0 !important;}
+  #page-cert{display:block !important;}
+  .cert-wrap{padding:0 !important;}
+  .cert{box-shadow:none !important;border:3px double #b8860b !important;page-break-inside:avoid;}
+  @page{margin:12mm;}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ================= HEADER ================= -->
+  <header class="app-header">
+    <h1>🚀 Misi Galaksi Atom</h1>
+    <p>Petualangan Konfigurasi Elektron Model Atom Bohr</p>
+  </header>
+
+  <main>
+    <!-- ================= HALAMAN 1: MATERI ================= -->
+    <section id="page-materi" class="page active">
+
+      <div class="card">
+        <h2>📘 MODEL ATOM BOHR: KULIT ELEKTRON</h2>
+        <p>Menurut Niels Bohr, elektron bergerak mengelilingi inti atom pada lintasan-lintasan tertentu yang disebut <span class="hl">kulit elektron</span>. Kulit dihitung mulai dari yang paling dekat inti ke luar, dan dilambangkan dengan huruf <span class="hl">K, L, M, N, O, P, …</span></p>
+        <p>Jumlah maksimum elektron yang dapat menempati kulit ke-<i>n</i> dirumuskan:</p>
+        <div class="rumus">Σ maksimum = 2n²</div>
+        <table class="mat">
+          <tr><th>Kulit</th><th>n</th><th>Kapasitas Maksimum</th></tr>
+          <tr><td><b>K</b></td><td>1</td><td>2 × 1² = <b>2</b></td></tr>
+          <tr><td><b>L</b></td><td>2</td><td>2 × 2² = <b>8</b></td></tr>
+          <tr><td><b>M</b></td><td>3</td><td>2 × 3² = <b>18</b></td></tr>
+          <tr><td><b>N</b></td><td>4</td><td>2 × 4² = <b>32</b></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>🔵 ATURAN PENGISIAN KULIT K DAN L</h2>
+        <ul>
+          <li><b>Kulit K</b> selalu diisi maksimum <span class="hl">2 elektron</span> — kecuali atom Hidrogen (H) yang hanya memiliki 1 elektron.</li>
+          <li><b>Kulit L</b> diisi <span class="hl">8 elektron</span> jika sisa elektron ≥ 8. Jika sisa elektron kurang dari 8, maka kulit L diisi sebanyak sisa tersebut.</li>
+        </ul>
+        <p>Contoh:</p>
+        <p class="mono">₃Li → 2, 1</p>
+        <p class="mono">₁₂Mg → 2, 8, 2</p>
+      </div>
+
+      <div class="card">
+        <h2>🟠 ATURAN PENGISIAN KULIT M DAN N</h2>
+        <p><b>Kulit M</b> (kapasitas maksimum 18):</p>
+        <ul>
+          <li>Diisi <b>18</b> jika sisa elektron &gt; 18</li>
+          <li>Diisi <b>8</b> jika 8 ≤ sisa &lt; 18</li>
+          <li>Diisi <b>sisa</b> jika sisa &lt; 8</li>
+        </ul>
+        <p><b>Kulit N</b> (kapasitas maksimum 32):</p>
+        <ul>
+          <li>Diisi <b>32</b> jika sisa elektron &gt; 32</li>
+          <li>Diisi <b>18</b> jika 18 ≤ sisa &lt; 32</li>
+          <li>Diisi <b>8</b> jika 8 ≤ sisa &lt; 18</li>
+          <li>Diisi <b>sisa</b> jika sisa &lt; 8</li>
+        </ul>
+        <p>Contoh:</p>
+        <p class="mono">₁₇Cl → 2, 8, 7</p>
+        <p class="mono">₂₀Ca → 2, 8, 8, 2</p>
+        <p class="mono">₃₆Kr → 2, 8, 18, 8</p>
+        <p class="mono">₃₈Sr → 2, 8, 18, 8, 2</p>
+      </div>
+
+      <div class="card">
+        <h2>🔤 NOTASI ATOM</h2>
+        <p>Format penulisan notasi atom:</p>
+        <div class="rumus">ᴬ<sub>Z</sub>X</div>
+        <ul>
+          <li><b>X</b> = lambang unsur</li>
+          <li><b>Z</b> = nomor atom = jumlah proton = jumlah elektron (atom netral)</li>
+          <li><b>A</b> = nomor massa = jumlah proton + jumlah neutron</li>
+          <li><b>Neutron</b> = A − Z</li>
+        </ul>
+        <p>Contoh: <span class="mono">²³₁₁Na</span> → Z = 11, A = 23, neutron = 23 − 11 = <b>12</b></p>
+        <p class="muted">⚠️ Catatan penting: untuk menyusun <b>konfigurasi elektron</b>, gunakan <b>Z (nomor atom)</b>, bukan A.</p>
+      </div>
+
+      <div class="card">
+        <h2>📍 GOLONGAN DAN PERIODE</h2>
+        <ul>
+          <li><b>Golongan</b> = jumlah elektron valensi (elektron pada kulit terluar) — untuk golongan A</li>
+          <li><b>Periode</b> = jumlah kulit yang terisi elektron</li>
+        </ul>
+        <table class="mat">
+          <tr><th>Elektron Valensi</th><th>Golongan</th></tr>
+          <tr><td>1</td><td>IA</td></tr>
+          <tr><td>2</td><td>IIA</td></tr>
+          <tr><td>3</td><td>IIIA</td></tr>
+          <tr><td>4</td><td>IVA</td></tr>
+          <tr><td>5</td><td>VA</td></tr>
+          <tr><td>6</td><td>VIA</td></tr>
+          <tr><td>7</td><td>VIIA</td></tr>
+          <tr><td>8</td><td>VIIIA</td></tr>
+        </table>
+        <p>Contoh:</p>
+        <p>• Na (2, 8, 1) → Golongan <b>IA</b>, Periode <b>3</b></p>
+        <p>• Cl (2, 8, 7) → Golongan <b>VIIA</b>, Periode <b>3</b></p>
+        <p>• Ca (2, 8, 8, 2) → Golongan <b>IIA</b>, Periode <b>4</b></p>
+      </div>
+
+      <div class="card">
+        <h2>✅ HAL PENTING YANG WAJIB DIINGAT</h2>
+        <ol>
+          <li>Kulit dihitung dari inti ke luar, kapasitas maksimum tiap kulit = <b>2n²</b>.</li>
+          <li>Kulit <b>K</b> maksimum 2 elektron, kulit <b>L</b> maksimum 8 elektron.</li>
+          <li>Kulit <b>M</b> maksimum 18 dan kulit <b>N</b> maksimum 32 — ikuti aturan sisa elektron.</li>
+          <li><b>Nomor atom = jumlah elektron</b> (pada atom netral).</li>
+          <li>Nomor massa <b>A = proton + neutron = Z + n</b>.</li>
+          <li><b>Golongan = elektron valensi</b>, <b>Periode = jumlah kulit yang terisi</b>.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>✏️ Latihan Practice Set 1</h2>
+        <p class="muted">Tentukan konfigurasi elektron, golongan, dan periode. Ketuk 👁️ untuk melihat jawaban.</p>
+        <div id="practice1"></div>
+      </div>
+
+      <div class="card">
+        <h2>📝 Latihan Practice Set 2</h2>
+        <p class="muted">Tentukan konfigurasi elektron, golongan, dan periode. Ketuk 👁️ untuk melihat jawaban.</p>
+        <div id="practice2"></div>
+      </div>
+
+    </section>
+
+    <!-- ================= HALAMAN 2: ATOM 3D ================= -->
+    <section id="page-atom" class="page">
+      <div class="card">
+        <h2>⚛️ Simulasi Atom Bohr 3D</h2>
+        <p class="muted">Ketuk salah satu unsur di bawah untuk melihat formasi elektronnya mengorbit inti atom.</p>
+      </div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <div class="atom-info" id="atomInfo"></div>
+        <div class="cam-controls">
+          <button id="btnPause" class="ctrl-btn" title="Pause/Play rotasi kamera">⏸️</button>
+          <button id="btnReset" class="ctrl-btn" title="Reset tampilan">⟲</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Distribusi Elektron per Kulit</h3>
+        <div id="distribusi"></div>
+      </div>
+
+      <div class="card">
+        <h3>🧪 Pilih Unsur (24 unsur)</h3>
+        <div class="el-grid" id="elementGrid"></div>
+      </div>
+    </section>
+
+    <!-- ================= HALAMAN 3: PETUALANGAN ================= -->
+    <section id="page-game" class="page">
+      <div id="gameRoot"></div>
+    </section>
+
+    <!-- ================= HALAMAN 4: SERTIFIKAT ================= -->
+    <section id="page-cert" class="page">
+      <div id="certRoot"></div>
+    </section>
+  </main>
+
+  <!-- ================= BOTTOM NAV ================= -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="materi"><span>📘</span><small>Materi</small></button>
+    <button class="nav-btn" data-page="atom"><span>⚛️</span><small>Atom 3D</small></button>
+    <button class="nav-btn" data-page="game"><span>🚀</span><small>Petualangan</small></button>
+    <button class="nav-btn" data-page="cert"><span>🏆</span><small>Sertifikat</small></button>
+  </nav>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<!-- ================= THREE.JS CDN r128 ================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+/* ================================================================
+   BAGIAN 1 — KONSTANTA & DATA DASAR
+   ================================================================ */
+
+// Format jawaban yang konsisten di seluruh soal
+const FMT_CONF  = '(tulis angka tanpa koma — contoh format: konfigurasi 2, 4 ditulis 24)';
+const FMT_GOL   = '(tulis contoh: IA, IIA, atau VIIA)';
+const FMT_ANGKA = '(tulis angka)';
+
+const STORAGE_KEY = 'bohr_mission_v3';
+
+// Lambang unsur (untuk keperluan tampilan)
+const SYM = {1:'H',2:'He',3:'Li',4:'Be',5:'B',6:'C',7:'N',8:'O',9:'F',10:'Ne',
+11:'Na',12:'Mg',13:'Al',14:'Si',15:'P',16:'S',17:'Cl',18:'Ar',19:'K',20:'Ca',
+21:'Sc',22:'Ti',23:'V',24:'Cr',25:'Mn',26:'Fe',27:'Co',28:'Ni',29:'Cu',30:'Zn',
+31:'Ga',32:'Ge',33:'As',34:'Se',35:'Br',36:'Kr',37:'Rb',38:'Sr',39:'Y',40:'Zr',
+41:'Nb',42:'Mo',43:'Tc',44:'Ru',45:'Rh',46:'Pd',47:'Ag',48:'Cd',49:'In',50:'Sn',
+51:'Sb',52:'Te',53:'I',54:'Xe',55:'Cs',56:'Ba',57:'La',58:'Ce',59:'Pr',60:'Nd',
+61:'Pm',62:'Sm',63:'Eu',64:'Gd',65:'Tb',66:'Dy',67:'Ho',68:'Er',69:'Tm',70:'Yb',
+71:'Lu',72:'Hf',73:'Ta',74:'W',75:'Re',76:'Os',77:'Ir',78:'Pt',79:'Au',80:'Hg',
+81:'Tl',82:'Pb',83:'Bi',84:'Po',85:'At',86:'Rn'};
+
+// 24 unsur untuk viewer 3D
+const ELEMENTS = [
+  {z:1,sym:'H'},{z:2,sym:'He'},{z:3,sym:'Li'},{z:4,sym:'Be'},{z:5,sym:'B'},{z:6,sym:'C'},
+  {z:7,sym:'N'},{z:8,sym:'O'},{z:9,sym:'F'},{z:10,sym:'Ne'},{z:11,sym:'Na'},{z:12,sym:'Mg'},
+  {z:13,sym:'Al'},{z:14,sym:'Si'},{z:15,sym:'P'},{z:16,sym:'S'},{z:17,sym:'Cl'},{z:18,sym:'Ar'},
+  {z:19,sym:'K'},{z:20,sym:'Ca'},{z:36,sym:'Kr'},{z:38,sym:'Sr'},{z:49,sym:'In'},{z:81,sym:'Tl'}
+];
+
+// Konversi elektron valensi → golongan (golongan A)
+const GOL_MAP = {1:'IA',2:'IIA',3:'IIIA',4:'IVA',5:'VA',6:'VIA',7:'VIIA',8:'VIIIA'};
+
+// Warna tiap kulit
+const SHELL_COLORS = ['#4fc3f7','#00897b','#ffb74d','#ba68c8','#ef5350','#26c6da'];
+const SHELL_NAMES  = ['K','L','M','N','O','P'];
+
+/* ================================================================
+   BAGIAN 2 — FUNGSI KONFIGURASI ELEKTRON (MODEL BOHR)
+   ================================================================ */
+
+/**
+ * Menghitung konfigurasi elektron model Bohr berdasarkan nomor atom Z.
+ * Aturan:
+ *  - Kulit K maksimum 2
+ *  - Kulit L maksimum 8
+ *  - Kulit M: 18 jika sisa > 18; 8 jika 8 ≤ sisa < 18; sisa jika < 8
+ *  - Kulit N: 32 jika sisa > 32; 18 jika 18 ≤ sisa < 32; 8 jika 8 ≤ sisa < 18; sisa jika < 8
+ *  - Kulit O, P mengikuti pola yang sama seperti N
+ */
+function getBohrConfig(z){
+  const cfg = [];
+  let rem = z;
+  if(rem <= 0) return [0];
+
+  // Kulit K
+  let k = Math.min(2, rem); cfg.push(k); rem -= k;
+  if(rem <= 0) return cfg;
+
+  // Kulit L
+  let l = Math.min(8, rem); cfg.push(l); rem -= l;
+  if(rem <= 0) return cfg;
+
+  // Kulit M
+  let m;
+  if(rem > 18) m = 18;
+  else if(rem >= 8) m = 8;
+  else m = rem;
+  cfg.push(m); rem -= m;
+  if(rem <= 0) return cfg;
+
+  // Kulit N
+  let n;
+  if(rem > 32) n = 32;
+  else if(rem >= 18) n = 18;
+  else if(rem >= 8) n = 8;
+  else n = rem;
+  cfg.push(n); rem -= n;
+  if(rem <= 0) return cfg;
+
+  // Kulit O
+  let o;
+  if(rem > 32) o = 32;
+  else if(rem >= 18) o = 18;
+  else if(rem >= 8) o = 8;
+  else o = rem;
+  cfg.push(o); rem -= o;
+  if(rem <= 0) return cfg;
+
+  // Kulit P
+  let p;
+  if(rem > 32) p = 32;
+  else if(rem >= 18) p = 18;
+  else if(rem >= 8) p = 8;
+  else p = rem;
+  cfg.push(p);
+  return cfg;
+}
+
+/** Mengubah konfigurasi array menjadi teks "2, 8, 1" */
+function cfgText(cfg){ return cfg.join(', '); }
+
+/* ================================================================
+   BAGIAN 3 — DATA LEVEL & SOAL (6 LEVEL, 32 SOAL)
+   ================================================================ */
+
+const LEVELS = [
+/* ---------------- LEVEL 1 ---------------- */
+{
+  id:1, icon:'🪐', name:'Zona K: Pengintaian Kulit Atom',
+  badge:{id:'b1', icon:'🚀', name:'Penjelajah Orbit'},
+  questions:[
+    { type:'mcq',
+      q:'Lambang kulit atom yang dihitung dari inti ke luar adalah...',
+      options:['K, L, M, N','L, M, N, O','M, N, O, P','N, O, P, Q'],
+      answer:0,
+      hint:'Kulit paling dekat dengan inti selalu diberi lambang huruf pertama.',
+      explain:'Kulit elektron dilambangkan berurutan dari dalam ke luar: K, L, M, N, O, P, dan seterusnya.' },
+    { type:'mcq',
+      q:'Kulit ke-3 dihitung dari inti atom dilambangkan dengan huruf...',
+      options:['K','L','M','N'],
+      answer:2,
+      hint:'Urutannya: kulit ke-1 = K, kulit ke-2 = L, kulit ke-3 = ...',
+      explain:'Urutan kulit: K (1), L (2), M (3), N (4). Jadi kulit ke-3 adalah M.' },
+    { type:'mcq',
+      q:'Kulit yang letaknya paling dekat dengan inti atom adalah kulit...',
+      options:['K','L','M','N'],
+      answer:0,
+      hint:'Kulit pertama yang diisi elektron selalu yang paling dekat inti.',
+      explain:'Kulit K adalah kulit paling dalam, paling dekat dengan inti atom, dan diisi lebih dulu oleh elektron.' },
+    { type:'fill',
+      q:'Berapa jumlah elektron maksimum yang dapat ditampung kulit K? ' + FMT_ANGKA,
+      answerText:'2',
+      hint:'Gunakan rumus 2n² dengan n = 1 untuk kulit K.',
+      explain:'Kulit K memiliki n = 1, sehingga kapasitas maksimumnya = 2 × 1² = 2 elektron.' }
+  ]
+},
+/* ---------------- LEVEL 2 ---------------- */
+{
+  id:2, icon:'⚡', name:'Zona L: Kapasitas & Jumlah Elektron',
+  badge:{id:'b2', icon:'⚡', name:'Ahli Kapasitas'},
+  questions:[
+    { type:'mcq',
+      q:'Rumus kapasitas maksimum elektron pada kulit ke-n adalah...',
+      options:['2n²','n²','2n','n³'],
+      answer:0,
+      hint:'Angka 2 dikalikan kuadrat nomor kulit.',
+      explain:'Kapasitas maksimum kulit ke-n dirumuskan Σ maks = 2n².' },
+    { type:'fill',
+      q:'Berapa jumlah elektron maksimum pada kulit L? ' + FMT_ANGKA,
+      answerText:'8',
+      hint:'Kulit L memiliki n = 2. Gunakan rumus 2n².',
+      explain:'Kulit L: n = 2 → 2 × 2² = 2 × 4 = 8 elektron.' },
+    { type:'fill',
+      q:'Berapa jumlah elektron maksimum pada kulit M? ' + FMT_ANGKA,
+      answerText:'18',
+      hint:'Kulit M memiliki n = 3. Gunakan rumus 2n².',
+      explain:'Kulit M: n = 3 → 2 × 3² = 2 × 9 = 18 elektron.' },
+    { type:'fill',
+      q:'Berapa jumlah elektron maksimum pada kulit N? ' + FMT_ANGKA,
+      answerText:'32',
+      hint:'Kulit N memiliki n = 4. Gunakan rumus 2n².',
+      explain:'Kulit N: n = 4 → 2 × 4² = 2 × 16 = 32 elektron.' },
+    { type:'fill',
+      q:'Sebuah atom memiliki konfigurasi K = 2, L = 8, M = 1. Berapa jumlah elektron atom tersebut? ' + FMT_ANGKA,
+      answerText:'11',
+      hint:'Jumlahkan semua elektron di setiap kulit.',
+      explain:'Jumlah elektron = 2 + 8 + 1 = 11 elektron.' },
+    { type:'fill',
+      q:'Unsur X memiliki konfigurasi elektron 2, 8, 7. Berapa nomor atom unsur X? ' + FMT_ANGKA,
+      answerText:'17',
+      hint:'Pada atom netral, nomor atom = jumlah elektron.',
+      explain:'Jumlah elektron = 2 + 8 + 7 = 17. Karena atom netral, nomor atom = 17 (unsur Cl).' }
+  ]
+},
+/* ---------------- LEVEL 3 ---------------- */
+{
+  id:3, icon:'🔵', name:'Zona M: Orbit Dalam (Z 1–10)',
+  badge:{id:'b3', icon:'🔵', name:'Navigator K–L'},
+  questions:[
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Helium (He, Z = 2). ' + FMT_CONF,
+      answerText:'2',
+      hint:'Helium hanya punya 2 elektron, semuanya masuk kulit K.',
+      explain:'Z = 2 → 2 elektron mengisi kulit K. Konfigurasi: 2.' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Karbon (C, Z = 6). ' + FMT_CONF,
+      answerText:'24',
+      hint:'Isi kulit K dulu (2), sisanya masuk kulit L.',
+      explain:'Z = 6 → K = 2, sisa 4 masuk L. Konfigurasi: 2, 4 (ditulis 24).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Oksigen berdasarkan notasi ¹⁶₈O. ' + FMT_CONF,
+      answerText:'26',
+      hint:'Gunakan nomor atom (angka bawah) Z = 8, bukan nomor massa.',
+      explain:'Z = 8 → K = 2, sisa 6 masuk L. Konfigurasi: 2, 6 (ditulis 26).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Neon (Ne, Z = 10). ' + FMT_CONF,
+      answerText:'28',
+      hint:'Kulit K penuh (2), sisanya masuk kulit L.',
+      explain:'Z = 10 → K = 2, L = 8. Konfigurasi: 2, 8 (ditulis 28).' }
+  ]
+},
+/* ---------------- LEVEL 4 ---------------- */
+{
+  id:4, icon:'🟠', name:'Zona N: Orbit Luar (Z 11–20)',
+  badge:{id:'b4', icon:'🟠', name:'Master Orbit M–N'},
+  questions:[
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Natrium (Na, Z = 11). ' + FMT_CONF,
+      answerText:'281',
+      hint:'K = 2, L = 8, sisanya masuk kulit M.',
+      explain:'Z = 11 → K = 2, L = 8, sisa 1 masuk M. Konfigurasi: 2, 8, 1 (ditulis 281).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Magnesium (Mg, Z = 12). ' + FMT_CONF,
+      answerText:'282',
+      hint:'K = 2, L = 8, sisanya masuk kulit M.',
+      explain:'Z = 12 → K = 2, L = 8, sisa 2 masuk M. Konfigurasi: 2, 8, 2 (ditulis 282).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Klorin berdasarkan notasi ³⁵₁₇Cl. ' + FMT_CONF,
+      answerText:'287',
+      hint:'Gunakan Z = 17 (angka bawah), bukan A = 35.',
+      explain:'Z = 17 → K = 2, L = 8, sisa 7 masuk M. Konfigurasi: 2, 8, 7 (ditulis 287).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Kalsium (Ca, Z = 20). ' + FMT_CONF,
+      answerText:'2882',
+      hint:'Setelah K = 2 dan L = 8, sisa 10 elektron. Kulit M diisi 8 dulu (karena 8 ≤ 10 < 18), sisanya ke N.',
+      explain:'Z = 20 → K = 2, L = 8, M = 8, N = 2. Konfigurasi: 2, 8, 8, 2 (ditulis 2882).' }
+  ]
+},
+/* ---------------- LEVEL 5 ---------------- */
+{
+  id:5, icon:'🟣', name:'Zona O: Golongan & Periode',
+  badge:{id:'b5', icon:'👑', name:'Ahli Peta Unsur'},
+  questions:[
+    { type:'fill',
+      q:'Berapa elektron valensi atom Na dengan konfigurasi 2, 8, 1? ' + FMT_ANGKA,
+      answerText:'1',
+      hint:'Elektron valensi = elektron pada kulit terluar.',
+      explain:'Kulit terluar Na adalah M dengan 1 elektron. Jadi elektron valensinya = 1.' },
+    { type:'fill',
+      q:'Berapa elektron valensi atom Cl dengan konfigurasi 2, 8, 7? ' + FMT_ANGKA,
+      answerText:'7',
+      hint:'Lihat jumlah elektron pada kulit paling luar saja.',
+      explain:'Kulit terluar Cl adalah M dengan 7 elektron. Jadi elektron valensinya = 7.' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 1 berada pada golongan... ' + FMT_GOL,
+      answerText:'IA', alt:['ia','1a','golongan ia','gol ia'],
+      hint:'Elektron valensi = 1 → lihat tabel konversi golongan.',
+      explain:'Elektron valensi = 1 → golongan IA.' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 7 berada pada golongan... ' + FMT_GOL,
+      answerText:'VIIA', alt:['viia','7a','golongan viia','gol viia'],
+      hint:'Elektron valensi = 7 → lihat tabel konversi golongan.',
+      explain:'Elektron valensi = 7 → golongan VIIA.' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 1 berada pada periode... ' + FMT_ANGKA,
+      answerText:'3',
+      hint:'Periode = jumlah kulit yang terisi elektron.',
+      explain:'Konfigurasi 2, 8, 1 menempati 3 kulit (K, L, M) → periode 3.' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 8, 2 berada pada periode... ' + FMT_ANGKA,
+      answerText:'4',
+      hint:'Hitung ada berapa kulit yang terisi.',
+      explain:'Konfigurasi 2, 8, 8, 2 menempati 4 kulit (K, L, M, N) → periode 4.' }
+  ]
+},
+/* ---------------- LEVEL 6 — BOSS ---------------- */
+{
+  id:6, icon:'💀', name:'Boss Challenge: Ujian Akhir',
+  badge:{id:'b6', icon:'🏆', name:'Penakluk Boss'},
+  questions:[
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Aluminium (Al, Z = 13). ' + FMT_CONF,
+      answerText:'283',
+      hint:'K = 2, L = 8, sisanya masuk kulit M.',
+      explain:'Z = 13 → K = 2, L = 8, sisa 3 masuk M. Konfigurasi: 2, 8, 3 (ditulis 283).' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Argon berdasarkan notasi ⁴⁰₁₈Ar. ' + FMT_CONF,
+      answerText:'288',
+      hint:'Gunakan Z = 18 (angka bawah), bukan A = 40.',
+      explain:'Z = 18 → K = 2, L = 8, M = 8. Konfigurasi: 2, 8, 8 (ditulis 288).' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 8, 1 memiliki nomor atom... ' + FMT_ANGKA,
+      answerText:'19',
+      hint:'Jumlahkan seluruh elektron pada semua kulit.',
+      explain:'Jumlah elektron = 2 + 8 + 8 + 1 = 19. Atom netral → nomor atom = 19 (unsur K).' },
+    { type:'fill',
+      q:'Atom X memiliki konfigurasi elektron 2, 8, 1 dan jumlah neutron 12. Berapa nomor massanya? ' + FMT_ANGKA,
+      answerText:'23',
+      hint:'Nomor massa A = jumlah proton (Z) + jumlah neutron.',
+      explain:'Jumlah elektron = 11 → Z = 11. Neutron = 12. A = 11 + 12 = 23.' },
+    { type:'fill',
+      q:'Atom Y memiliki konfigurasi elektron 2, 8, 7 dan jumlah neutron 18. Berapa nomor massanya? ' + FMT_ANGKA,
+      answerText:'35',
+      hint:'Hitung dulu jumlah elektronnya untuk mendapatkan Z.',
+      explain:'Jumlah elektron = 2 + 8 + 7 = 17 → Z = 17. Neutron = 18. A = 17 + 18 = 35.' },
+    { type:'fill',
+      q:'Tuliskan konfigurasi elektron atom Silikon (Si, Z = 14). ' + FMT_CONF,
+      answerText:'284',
+      hint:'K = 2, L = 8, sisanya masuk kulit M.',
+      explain:'Z = 14 → K = 2, L = 8, sisa 4 masuk M. Konfigurasi: 2, 8, 4 (ditulis 284).' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 8, 2 berada pada golongan... ' + FMT_GOL,
+      answerText:'IIA', alt:['iia','2a','golongan iia','gol iia'],
+      hint:'Elektron valensi = 2 → lihat tabel konversi golongan.',
+      explain:'Elektron valensi = 2 → golongan IIA.' },
+    { type:'fill',
+      q:'Unsur dengan konfigurasi elektron 2, 8, 7 berada pada periode... ' + FMT_ANGKA,
+      answerText:'3',
+      hint:'Hitung jumlah kulit yang terisi elektron.',
+      explain:'Konfigurasi 2, 8, 7 menempati 3 kulit (K, L, M) → periode 3.' }
+  ]
+}
+];
+
+const MAX_XP = LEVELS.reduce((s,l)=>s+l.questions.length,0) * 4; // = 128
+const ALL_BADGES = LEVELS.map(l=>l.badge);
+
+/* ================================================================
+   BAGIAN 4 — STATE GAME & LOCALSTORAGE
+   ================================================================ */
+
+function defaultGame(){
+  return {
+    playerName:'',
+    xp:0,
+    answers:{},        // "levelId-index": {correct, hintUsed, points, userAnswer, timestamp}
+    levels:{},         // levelId: {completed, score, completedAt}
+    badges:[],
+    completedAt:null,
+    started:false
+  };
+}
+
+let game = defaultGame();
+
+function saveGame(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(game)); }
+  catch(e){ console.warn('Gagal menyimpan:', e); }
+}
+function loadGame(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      game = Object.assign(defaultGame(), parsed);
+      if(!game.answers) game.answers = {};
+      if(!game.levels)  game.levels  = {};
+      if(!game.badges)  game.badges  = [];
+    }
+  }catch(e){ game = defaultGame(); }
+}
+
+/** Total XP dihitung dari seluruh jawaban tersimpan */
+function calculateXP(){
+  let total = 0;
+  for(const k in game.answers){
+    total += (game.answers[k].points || 0);
+  }
+  return total;
+}
+function calculateMaxXP(){ return MAX_XP; }
+function calculateScore(){
+  const s = Math.round((calculateXP() / MAX_XP) * 100);
+  return Math.max(0, Math.min(100, s));
+}
+function getPredicate(score){
+  if(score >= 85) return {code:'A', label:'Sangat Baik', cls:'pred-a'};
+  if(score >= 70) return {code:'B', label:'Baik',        cls:'pred-b'};
+  if(score >= 55) return {code:'C', label:'Cukup',       cls:'pred-c'};
+  return {code:'D', label:'Perlu Bimbingan', cls:'pred-d'};
+}
+function getAppreciation(pred){
+  switch(pred.code){
+    case 'A': return 'Luar biasa, Kapten! Kamu menunjukkan penguasaan konsep Konfigurasi Elektron, Notasi Atom, serta Golongan & Periode yang sangat baik. Pertahankan semangat eksplorasimu!';
+    case 'B': return 'Kerja bagus! Kamu sudah memahami sebagian besar konsep. Sedikit latihan lagi dan kamu akan menjadi ahli atom sejati!';
+    case 'C': return 'Kamu sudah berada di jalur yang benar. Pelajari kembali aturan pengisian kulit, notasi atom, dan cara menentukan golongan & periode — kamu pasti bisa!';
+    default:  return 'Jangan menyerah, Kapten! Setiap penjelajah hebat pernah melewati tantangan. Ayo pelajari kembali materinya dan coba lagi. Kamu pasti bisa!';
+  }
+}
+function isAllComplete(){
+  return LEVELS.every(l => game.levels[l.id] && game.levels[l.id].completed);
+}
+function isLevelUnlocked(id){
+  if(id === 1) return true;
+  return !!(game.levels[id-1] && game.levels[id-1].completed);
+}
+
+/* ================================================================
+   BAGIAN 5 — UTILITAS UMUM
+   ================================================================ */
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+/** Normalisasi jawaban: huruf kecil, tanpa spasi & tanda baca */
+function norm(s){
+  return String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+const BULAN_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function tanggalIndo(d){
+  return d.getDate() + ' ' + BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+/* ================================================================
+   BAGIAN 6 — NAVIGASI HALAMAN
+   ================================================================ */
+
+let three3dReady = false;
+
+function switchPage(name){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + name);
+  if(target) target.classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.page === name);
+  });
+
+  if(name === 'atom')  onShowAtomPage();
+  if(name === 'game')  renderGame();
+  if(name === 'cert')  renderCertificate();
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function onShowAtomPage(){
+  if(!three3dReady){
+    init3D();
+    three3dReady = true;
+    buildAtom(currentZ);
+  } else {
+    resize3D();
+  }
+  updateAtomInfo(currentZ);
+}
+
+/* ================================================================
+   BAGIAN 7 — MATERI: PRACTICE SETS
+   ================================================================ */
+
+function buildPracticeSets(){
+  const set1 = [4,6,8,11,13,14];
+  const set2 = [16,18,19,32,37,51,53,82,84,86];
+  renderPractice('practice1', set1, 'p1');
+  renderPractice('practice2', set2, 'p2');
+}
+
+function renderPractice(containerId, zList, prefix){
+  const box = document.getElementById(containerId);
+  if(!box) return;
+  box.innerHTML = zList.map((z, i)=>{
+    const sym = SYM[z] || '?';
+    const cfg = getBohrConfig(z);
+    const val = cfg[cfg.length-1];
+    const gol = GOL_MAP[val] || '-';
+    const per = cfg.length;
+    const id = prefix + '_' + i;
+    return `
+      <div class="practice-item">
+        <div class="practice-head">
+          <div class="q"><b>${i+1}.</b> Unsur ${sym} (Z = ${z}) — tentukan konfigurasi elektron, golongan, dan periode.</div>
+          <button class="eye-btn" data-target="${id}">👁️</button>
+        </div>
+        <div class="practice-ans" id="${id}">
+          Konfigurasi : ${cfgText(cfg)}<br>
+          Golongan&nbsp;&nbsp;&nbsp;: ${gol}<br>
+          Periode&nbsp;&nbsp;&nbsp;&nbsp;: ${per}
+        </div>
+      </div>`;
+  }).join('');
+
+  box.querySelectorAll('.eye-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const el = document.getElementById(btn.dataset.target);
+      if(!el) return;
+      el.classList.toggle('show');
+      btn.textContent = el.classList.contains('show') ? '🙈' : '👁️';
+    });
+  });
+}
+
+/* ================================================================
+   BAGIAN 8 — THREE.JS: ATOM 3D
+   ================================================================ */
+
+let scene, camera, renderer, atomGroup;
+let electrons = [];          // {mesh, radius, speed, angle}
+let camPaused = false;
+let camAngle = 0;
+let camRadius = 14, camRadiusTarget = 14;
+let currentZ = 11;
+let clock, lastTime = 0;
+let glowTextureCache = null;
+
+/** Membuat tekstur glow radial untuk efek cahaya */
+function getGlowTexture(){
+  if(glowTextureCache) return glowTextureCache;
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(64,64,0, 64,64,64);
+  g.addColorStop(0,   'rgba(255,255,255,1)');
+  g.addColorStop(0.25,'rgba(255,255,255,0.55)');
+  g.addColorStop(1,   'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,128,128);
+  glowTextureCache = new THREE.CanvasTexture(c);
+  return glowTextureCache;
+}
+
+/** Membuat sprite label teks */
+function makeTextSprite(text, color, size){
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 128;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,256,128);
+  ctx.font = 'bold 72px "Segoe UI", system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = color;
+  ctx.shadowColor = 'rgba(0,0,0,0.9)';
+  ctx.shadowBlur = 10;
+  ctx.fillText(text, 128, 64);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.minFilter = THREE.LinearFilter;
+  const mat = new THREE.SpriteMaterial({map:tex, transparent:true, depthTest:false, depthWrite:false});
+  const sp = new THREE.Sprite(mat);
+  const s = size || 1;
+  sp.scale.set(2.2*s, 1.1*s, 1);
+  return sp;
+}
+
+/** Inisialisasi scene Three.js */
+function init3D(){
+  const wrap = document.getElementById('canvasWrap');
+  const w = wrap.clientWidth || 400;
+  const h = wrap.clientHeight || 340;
+
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(50, w/h, 0.1, 2000);
+  camera.position.set(0, 5, camRadius);
+  camera.lookAt(0,0,0);
+
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(w, h);
+  renderer.setClearColor(0x000000, 0);
+  wrap.appendChild(renderer.domElement);
+
+  // Pencahayaan
+  scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+  const pl1 = new THREE.PointLight(0x4fc3f7, 1.4, 200);
+  pl1.position.set(14, 14, 14);
+  scene.add(pl1);
+  const pl2 = new THREE.PointLight(0xff8f00, 1.1, 200);
+  pl2.position.set(-14, -10, -14);
+  scene.add(pl2);
+
+  // Starfield background (400 titik bintang)
+  const starGeo = new THREE.BufferGeometry();
+  const positions = new Float32Array(400 * 3);
+  for(let i = 0; i < 400; i++){
+    positions[i*3]     = (Math.random() - 0.5) * 260;
+    positions[i*3 + 1] = (Math.random() - 0.5) * 260;
+    positions[i*3 + 2] = (Math.random() - 0.5) * 260;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const starMat = new THREE.PointsMaterial({
+    color: 0xffffff, size: 0.8, transparent: true, opacity: 0.85, sizeAttenuation: true
+  });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  // Grup atom
+  atomGroup = new THREE.Group();
+  scene.add(atomGroup);
+
+  clock = new THREE.Clock();
+  animate();
+
+  window.addEventListener('resize', resize3D);
+}
+
+function resize3D(){
+  if(!renderer || !camera) return;
+  const wrap = document.getElementById('canvasWrap');
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+  if(w === 0 || h === 0) return;
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}
+
+/** Menghapus seluruh isi grup (tanpa dispose material bersama) */
+function clearGroup(g){
+  while(g.children.length > 0){
+    const c = g.children[0];
+    g.remove(c);
+    c.traverse(o => { if(o.geometry) o.geometry.dispose(); });
+  }
+}
+
+/** Membangun model atom Bohr 3D untuk nomor atom z */
+function buildAtom(z){
+  if(!atomGroup) return;
+
+  clearGroup(atomGroup);
+  electrons = [];
+
+  const cfg = getBohrConfig(z);
+
+  /* ---------- INTI ATOM ---------- */
+  const nucGeo = new THREE.SphereGeometry(0.95, 32, 32);
+  const nucMat = new THREE.MeshStandardMaterial({
+    color: 0xff5252, emissive: 0x9b1c1c, emissiveIntensity: 1.3,
+    roughness: 0.35, metalness: 0.15
+  });
+  const nucleus = new THREE.Mesh(nucGeo, nucMat);
+  atomGroup.add(nucleus);
+
+  // Glow pada inti
+  const glowMat = new THREE.SpriteMaterial({
+    map: getGlowTexture(), color: 0xff5252, transparent: true,
+    opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  const glow = new THREE.Sprite(glowMat);
+  glow.scale.set(4.2, 4.2, 1);
+  atomGroup.add(glow);
+
+  // Label "+Z" di atas inti
+  const zLabel = makeTextSprite('+' + z, '#ffd54f', 0.85);
+  zLabel.position.set(0, 2.0, 0);
+  atomGroup.add(zLabel);
+
+  // Label "Inti atom" di bawah inti
+  const nucLabel = makeTextSprite('Inti atom', '#ffb4b4', 0.55);
+  nucLabel.position.set(0, -1.75, 0);
+  atomGroup.add(nucLabel);
+
+  /* ---------- KULIT & ELEKTRON ---------- */
+  cfg.forEach((count, i) => {
+    const radius = 1.8 + i * 1.0;
+    const colorHex = SHELL_COLORS[i % SHELL_COLORS.length];
+    const color = new THREE.Color(colorHex);
+
+    // Cincin orbit (torus horizontal)
+    const ringGeo = new THREE.TorusGeometry(radius, 0.028, 8, 120);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: color, transparent: true, opacity: 0.55
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = -Math.PI / 2;
+    atomGroup.add(ring);
+
+    // Label K, L, M, N di sisi kanan cincin
+    const shellLabel = makeTextSprite(SHELL_NAMES[i] || ('n' + (i+1)), colorHex, 0.5);
+    shellLabel.position.set(radius + 0.55, 0.28, 0);
+    atomGroup.add(shellLabel);
+
+    // Elektron-elektron pada kulit ini
+    const speed = 0.95 / (1 + i * 0.55);
+    for(let e = 0; e < count; e++){
+      const angle0 = (e / count) * Math.PI * 2;
+
+      const eGeo = new THREE.SphereGeometry(0.155, 16, 16);
+      const eMat = new THREE.MeshStandardMaterial({
+        color: color, emissive: color, emissiveIntensity: 1.6, roughness: 0.3
+      });
+      const el = new THREE.Mesh(eGeo, eMat);
+      el.position.set(Math.cos(angle0) * radius, 0, Math.sin(angle0) * radius);
+
+      // Efek glow/trail pada elektron
+      const egMat = new THREE.SpriteMaterial({
+        map: getGlowTexture(), color: color, transparent: true,
+        opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false
+      });
+      const eg = new THREE.Sprite(egMat);
+      eg.scale.set(0.85, 0.85, 1);
+      el.add(eg);
+
+      atomGroup.add(el);
+      electrons.push({mesh: el, radius: radius, speed: speed, angle: angle0});
+    }
+  });
+
+  // Atur jarak kamera sesuai jumlah kulit
+  camRadiusTarget = 5 + cfg.length * 1.85;
+  if(camRadius === 14) camRadius = camRadiusTarget;
+}
+
+/** Loop animasi */
+function animate(){
+  requestAnimationFrame(animate);
+  if(!renderer || !scene || !camera) return;
+
+  const dt = Math.min(clock ? clock.getDelta() : 0.016, 0.08);
+
+  // Rotasi kamera otomatis
+  if(!camPaused){
+    camAngle += dt * 0.34;
+  }
+
+  // Interpolasi jarak kamera
+  camRadius += (camRadiusTarget - camRadius) * Math.min(1, dt * 2.6);
+
+  camera.position.x = Math.sin(camAngle) * camRadius;
+  camera.position.z = Math.cos(camAngle) * camRadius;
+  camera.position.y = camRadius * 0.32;
+  camera.lookAt(0, 0, 0);
+
+  // Gerakkan elektron mengelilingi inti
+  for(let i = 0; i < electrons.length; i++){
+    const e = electrons[i];
+    e.angle += dt * e.speed;
+    e.mesh.position.set(
+      Math.cos(e.angle) * e.radius,
+      0,
+      Math.sin(e.angle) * e.radius
+    );
+  }
+
+  // Inti berdenyut halus
+  if(atomGroup && atomGroup.children[0]){
+    const s = 1 + Math.sin(performance.now() * 0.0022) * 0.045;
+    atomGroup.children[0].scale.set(s, s, s);
+  }
+
+  renderer.render(scene, camera);
+}
+
+/** Grid tombol unsur */
+function buildElementGrid(){
+  const grid = document.getElementById('elementGrid');
+  if(!grid) return;
+  grid.innerHTML = ELEMENTS.map(e =>
+    `<button class="el-btn" data-z="${e.z}">${e.sym}</button>`
+  ).join('');
+
+  grid.querySelectorAll('.el-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectElement(parseInt(btn.dataset.z,10)));
+  });
+}
+
+/** Pilih unsur: perbarui 3D + info + distribusi */
+function selectElement(z){
+  currentZ = z;
+  if(three3dReady) buildAtom(z);
+  updateAtomInfo(z);
+  updateDistribusi(z);
+
+  document.querySelectorAll('.el-btn').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.z,10) === z);
+  });
+}
+
+/** Overlay info kiri atas pada canvas */
+function updateAtomInfo(z){
+  const box = document.getElementById('atomInfo');
+  if(!box) return;
+  const sym = SYM[z] || '?';
+  const cfg = getBohrConfig(z);
+  box.innerHTML = `
+    <div class="atom-sym">${sym}</div>
+    <div class="atom-sub">Z = ${z}</div>
+    <div class="atom-cfg">${cfgText(cfg)}</div>
+  `;
+}
+
+/** Distribusi elektron per kulit dengan simbol ● */
+function updateDistribusi(z){
+  const box = document.getElementById('distribusi');
+  if(!box) return;
+  const cfg = getBohrConfig(z);
+  box.innerHTML = cfg.map((n, i) => `
+    <div class="dist-row">
+      <span class="dist-shell">Kulit ${SHELL_NAMES[i] || ('n' + (i+1))}</span>
+      <span class="dist-dots">${'●'.repeat(Math.max(0, n))}</span>
+      <span class="dist-num">${n}</span>
+    </div>
+  `).join('');
+}
+
+/* ================================================================
+   BAGIAN 9 — HALAMAN PETUALANGAN (GAMIFIKASI)
+   ================================================================ */
+
+let currentLevelId = null;
+let currentQIndex = 0;
+let hintUsedNow = false;
+let answeredNow = false;
+
+/** Render halaman game sesuai state */
+function renderGame(){
+  const root = document.getElementById('gameRoot');
+  if(!root) return;
+
+  if(!game.started){
+    renderIntro();
+  } else if(currentLevelId === null){
+    renderMissionDashboard();
+  } else {
+    renderQuiz();
+  }
+}
+
+/* ---------- 9.1 INTRO / PETUNJUK ---------- */
+function renderIntro(){
+  const root = document.getElementById('gameRoot');
+  root.innerHTML = `
+    <div class="card">
+      <h2>📖 Petunjuk Penggunaan untuk Kapten</h2>
+      <ol>
+        <li>🧑‍🚀 Isi <b>Nama Kapten</b> (akan tertulis di sertifikat)</li>
+        <li>🌟 Klik tombol <b>"Mulai Misi"</b></li>
+        <li>🗺️ Selesaikan zona secara berurutan</li>
+        <li>✍️ Jawab soal (pilihan ganda / isian)</li>
+        <li>📏 Perhatikan format jawaban khusus:
+          <br>• <b>Konfigurasi</b>: tulis angka tanpa koma — contoh: konfigurasi 2, 4 ditulis <b>24</b>
+          <br>• <b>Golongan</b>: tulis contoh <b>IA</b>, <b>IIA</b>, atau <b>VIIA</b>
+          <br>• <b>Periode / Nomor massa / Nomor atom</b>: tulis angka
+        </li>
+        <li>💡 Gunakan petunjuk jika bingung (<b>-1 XP</b>)</li>
+        <li>🏆 Ambil sertifikat setelah semua zona tuntas</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>💎 Tips Sukses</h3>
+      <ul>
+        <li>Baca materi terlebih dahulu — khususnya <b>Notasi Atom</b> dan <b>Golongan & Periode</b></li>
+        <li>Perhatikan pembahasan setiap jawaban</li>
+        <li>Jangan takut salah — salah adalah bagian dari belajar</li>
+        <li>Progress tersimpan otomatis di perangkatmu</li>
+      </ul>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box"><div class="ic">⚡</div><div class="val">4 XP</div><div class="lbl">per soal benar</div></div>
+      <div class="info-box"><div class="ic">💡</div><div class="val">-1 XP</div><div class="lbl">pakai hint</div></div>
+      <div class="info-box"><div class="ic">🎯</div><div class="val">32 Soal</div><div class="lbl">total misi</div></div>
+      <div class="info-box"><div class="ic">🏆</div><div class="val">6 Badge</div><div class="lbl">untuk dikumpulkan</div></div>
+    </div>
+
+    <div class="card">
+      <label class="lbl">🧑‍🚀 Nama Kapten</label>
+      <input type="text" id="playerNameInput" maxlength="40" placeholder="Tulis namamu di sini..." value="${esc(game.playerName)}">
+      <div style="height:10px"></div>
+      <button class="btn btn-primary" id="btnStartMission">🌟 Mulai Misi</button>
+    </div>
+  `;
+
+  document.getElementById('btnStartMission').addEventListener('click', startMission);
+  document.getElementById('playerNameInput').addEventListener('keydown', e=>{
+    if(e.key === 'Enter') startMission();
+  });
+}
+
+function startMission(){
+  const inp = document.getElementById('playerNameInput');
+  const name = (inp.value || '').trim();
+  if(name.length < 2){
+    toast('⚠️ Isi nama kapten minimal 2 karakter');
+    inp.focus();
+    return;
+  }
+  game.playerName = name;
+  game.started = true;
+  game.xp = calculateXP();
+  saveGame();
+  currentLevelId = null;
+  toast('🚀 Misi dimulai! Semoga sukses, Kapten ' + name + '!');
+  renderMissionDashboard();
+}
+
+/* ---------- 9.2 DASHBOARD MISI ---------- */
+function renderMissionDashboard(){
+  currentLevelId = null;
+  const root = document.getElementById('gameRoot');
+  const xp = calculateXP();
+  const pct = Math.round((xp / MAX_XP) * 100);
+
+  // Baris badge
+  const badgeRow = ALL_BADGES.map(b=>{
+    const earned = game.badges.indexOf(b.id) !== -1;
+    return `<div class="badge ${earned ? 'earned' : ''}">
+      <span>${b.icon}</span><small>${esc(b.name)}</small>
+    </div>`;
+  }).join('');
+
+  // Peta level
+  const levelCards = LEVELS.map(l=>{
+    const done = game.levels[l.id] && game.levels[l.id].completed;
+    const unlocked = isLevelUnlocked(l.id);
+    let cls = 'level-card', status = '', statusColor = '#6d78a8';
+
+    if(done){
+      cls += ' done';
+      status = '✅ Tuntas — skor ' + game.levels[l.id].score + '%';
+      statusColor = '#4caf50';
+    } else if(unlocked){
+      cls += ' ready';
+      status = '▶️ Siap dimulai';
+      statusColor = '#ff8f00';
+    } else {
+      cls += ' locked';
+      status = '🔒 Terkunci';
+      statusColor = '#6d78a8';
+    }
+
+    return `
+      <div class="${cls}" data-level="${l.id}">
+        <div class="level-ic">${l.icon}</div>
+        <div class="level-info">
+          <div class="t">Level ${l.id} — ${esc(l.name)}</div>
+          <div class="s">${l.questions.length} soal • ${l.badge.icon} ${esc(l.badge.name)}</div>
+        </div>
+        <div class="level-status" style="color:${statusColor}">${status}</div>
+      </div>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="card">
+      <h2>🧑‍🚀 Kapten: ${esc(game.playerName)}</h2>
+      <div class="xp-wrap">
+        <div class="xp-label">
+          <span>⚡ XP Petualangan</span>
+          <span>${xp} / ${MAX_XP}</span>
+        </div>
+        <div class="xp-bar"><div class="xp-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="badge-row">${badgeRow}</div>
+    </div>
+
+    <div class="card">
+      <h2>🗺️ Peta Zona Galaksi</h2>
+      <p class="muted">Selesaikan zona secara berurutan untuk membuka zona berikutnya.</p>
+      ${levelCards}
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btnShowHintAgain">📖 Lihat Petunjuk Lagi</button>
+      <button class="btn btn-ghost" id="btnResetMission">🔄 Reset Petualangan</button>
+    </div>
+    <div style="height:10px"></div>
+    ${isAllComplete() ? '<button class="btn btn-primary" id="btnGoCert">🏆 Lihat Sertifikat</button>' : ''}
+  `;
+
+  // Event level cards
+  root.querySelectorAll('.level-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const id = parseInt(card.dataset.level, 10);
+      if(!isLevelUnlocked(id)){
+        toast('🔒 Selesaikan zona sebelumnya terlebih dahulu!');
+        return;
+      }
+      openLevel(id);
+    });
+  });
+
+  const btnHintAgain = document.getElementById('btnShowHintAgain');
+  if(btnHintAgain) btnHintAgain.addEventListener('click', ()=>{
+    game.started = false; saveGame(); renderIntro();
+  });
+
+  const btnReset = document.getElementById('btnResetMission');
+  if(btnReset) btnReset.addEventListener('click', resetMission);
+
+  const btnCert = document.getElementById('btnGoCert');
+  if(btnCert) btnCert.addEventListener('click', ()=> switchPage('cert'));
+}
+
+/* ---------- 9.3 MEMBUKA LEVEL ---------- */
+function openLevel(levelId){
+  currentLevelId = levelId;
+  currentQIndex = 0;
+  answeredNow = false;
+  hintUsedNow = false;
+  renderQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------- 9.4 RENDER SOAL ---------- */
+function renderQuiz(){
+  const root = document.getElementById('gameRoot');
+  const lvl = LEVELS[currentLevelId - 1];
+  if(!lvl){ currentLevelId = null; renderMissionDashboard(); return; }
+
+  const q = lvl.questions[currentQIndex];
+  const key = currentLevelId + '-' + currentQIndex;
+  const prevAnswer = game.answers[key];
+
+  answeredNow = false;
+  hintUsedNow = prevAnswer ? !!prevAnswer.hintUsed : false;
+
+  // Progress dots
+  const dots = lvl.questions.map((_, i)=>{
+    const a = game.answers[currentLevelId + '-' + i];
+    let cls = 'dot';
+    if(a) cls += a.correct ? ' correct' : ' wrong';
+    if(i === currentQIndex) cls += ' active';
+    return `<span class="${cls}"></span>`;
+  }).join('');
+
+  // Body soal
+  let bodyHtml = '';
+  if(q.type === 'mcq'){
+    bodyHtml = `<div class="options">${
+      q.options.map((o, i)=>
+        `<button class="opt" data-idx="${i}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`
+      ).join('')
+    }</div>`;
+  } else {
+    bodyHtml = `
+      <div class="fill-row">
+        <input type="text" class="fill-input" id="fillInput" placeholder="Tulis jawabanmu..." autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="btn btn-primary" id="btnCheckAnswer">✓ Periksa Jawaban</button>
+      </div>`;
+  }
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="dots">${dots}</div>
+      <div class="q-meta">${lvl.icon} ${esc(lvl.name)} — Soal ${currentQIndex + 1} / ${lvl.questions.length}</div>
+      <div class="q-text">${esc(q.q)}</div>
+      ${bodyHtml}
+      <div id="hintArea"></div>
+      <div id="feedbackArea"></div>
+      <div class="quiz-actions">
+        <button class="btn btn-ghost" id="btnHint">💡 Gunakan Petunjuk (-1 XP)</button>
+        <button class="btn btn-ghost" id="btnBackMap">🗺️ Peta Misi</button>
+      </div>
+    </div>
+  `;
+
+  // Event MCQ
+  if(q.type === 'mcq'){
+    root.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(answeredNow) return;
+        const idx = parseInt(btn.dataset.idx, 10);
+        const correct = (idx === q.answer);
+        root.querySelectorAll('.opt').forEach((b, i)=>{
+          b.disabled = true;
+          if(i === q.answer) b.classList.add('correct');
+          else if(i === idx && !correct) b.classList.add('wrong');
+        });
+        finalizeAnswer(correct, q.options[idx], q);
+      });
+    });
+  } else {
+    const inp = document.getElementById('fillInput');
+    const btn = document.getElementById('btnCheckAnswer');
+    btn.addEventListener('click', ()=>{
+      if(answeredNow) return;
+      const val = inp.value;
+      if(norm(val) === ''){
+        toast('⚠️ Tulis jawabanmu terlebih dahulu');
+        inp.focus();
+        return;
+      }
+      const correct = checkFillAnswer(val, q);
+      inp.disabled = true;
+      btn.disabled = true;
+      finalizeAnswer(correct, val, q);
+    });
+    inp.addEventListener('keydown', e=>{
+      if(e.key === 'Enter') btn.click();
+    });
+    setTimeout(()=>{ try{ inp.focus(); }catch(e){} }, 120);
+  }
+
+  // Tombol hint
+  document.getElementById('btnHint').addEventListener('click', useHint);
+  // Kembali ke peta
+  document.getElementById('btnBackMap').addEventListener('click', ()=>{
+    currentLevelId = null;
+    renderMissionDashboard();
+  });
+}
+
+/** Cek jawaban isian */
+function checkFillAnswer(userVal, q){
+  const u = norm(userVal);
+  if(!u) return false;
+  if(norm(q.answerText) === u) return true;
+  if(q.alt && q.alt.some(a => norm(a) === u)) return true;
+  return false;
+}
+
+/** Tampilkan hint */
+function useHint(){
+  const lvl = LEVELS[currentLevelId - 1];
+  const q = lvl.questions[currentQIndex];
+  const area = document.getElementById('hintArea');
+  const btn = document.getElementById('btnHint');
+  if(!area || answeredNow) return;
+
+  if(!hintUsedNow){
+    hintUsedNow = true;
+    toast('💡 Petunjuk dibuka (-1 XP jika jawaban benar)');
+  }
+
+  area.innerHTML = `<div class="hint-box"><b>💡 Petunjuk:</b> ${esc(q.hint)}</div>`;
+  if(btn) btn.disabled = true;
+}
+
+/** Proses akhir jawaban: simpan, beri feedback */
+function finalizeAnswer(correct, userVal, q){
+  answeredNow = true;
+  const key = currentLevelId + '-' + currentQIndex;
+
+  // Hitung poin: benar = 4 XP, jika pakai hint = 3 XP
+  let points = 0;
+  if(correct) points = hintUsedNow ? 3 : 4;
+
+  game.answers[key] = {
+    correct: correct,
+    hintUsed: hintUsedNow,
+    points: points,
+    userAnswer: String(userVal),
+    timestamp: Date.now()
+  };
+  game.xp = calculateXP();
+  saveGame();
+
+  // Feedback
+  const fb = document.getElementById('feedbackArea');
+  const lvl = LEVELS[currentLevelId - 1];
+  const isLast = (currentQIndex === lvl.questions.length - 1);
+
+  if(correct){
+    fb.innerHTML = `
+      <div class="feedback ok">
+        <b>✅ Benar! +${points} XP</b><br>
+        ${esc(q.explain)}
+      </div>
+      <div style="height:10px"></div>
+      <button class="btn ${isLast ? 'btn-blue' : 'btn-teal'}" id="btnNext">
+        ${isLast ? '🎯 Selesaikan Level' : 'Lanjut →'}
+      </button>`;
+    toast('✅ Benar! +' + points + ' XP');
+  } else {
+    fb.innerHTML = `
+      <div class="feedback no">
+        <b>❌ Belum tepat.</b> Jawaban benar: <b>${esc(q.answerText)}</b><br>
+        ${esc(q.explain)}
+      </div>
+      <div style="height:10px"></div>
+      <button class="btn ${isLast ? 'btn-blue' : 'btn-teal'}" id="btnNext">
+        ${isLast ? '🎯 Selesaikan Level' : 'Lanjut →'}
+      </button>`;
+    toast('❌ Belum tepat. Jawaban: ' + q.answerText);
+  }
+
+  const btnNext = document.getElementById('btnNext');
+  if(btnNext) btnNext.addEventListener('click', nextQuestion);
+
+  // Sembunyikan tombol hint
+  const btnHint = document.getElementById('btnHint');
+  if(btnHint) btnHint.disabled = true;
+
+  // Scroll ke feedback
+  setTimeout(()=>{
+    if(fb) fb.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }, 180);
+}
+
+/** Soal berikutnya atau selesaikan level */
+function nextQuestion(){
+  const lvl = LEVELS[currentLevelId - 1];
+  if(currentQIndex < lvl.questions.length - 1){
+    currentQIndex++;
+    renderQuiz();
+    window.scrollTo({top:0, behavior:'smooth'});
+  } else {
+    finishLevel();
+  }
+}
+
+/* ---------- 9.5 SELESAI LEVEL ---------- */
+function finishLevel(){
+  const lvl = LEVELS[currentLevelId - 1];
+  let correct = 0;
+  lvl.questions.forEach((_, i)=>{
+    const a = game.answers[currentLevelId + '-' + i];
+    if(a && a.correct) correct++;
+  });
+  const score = Math.round((correct / lvl.questions.length) * 100);
+
+  game.levels[currentLevelId] = {
+    completed: true,
+    score: score,
+    completedAt: Date.now()
+  };
+  if(game.badges.indexOf(lvl.badge.id) === -1){
+    game.badges.push(lvl.badge.id);
+  }
+
+  const allDone = isAllComplete();
+  if(allDone && !game.completedAt){
+    game.completedAt = Date.now();
+  }
+  game.xp = calculateXP();
+  saveGame();
+
+  renderLevelResult(lvl, correct, score, allDone);
+}
+
+function renderLevelResult(lvl, correct, score, allDone){
+  const root = document.getElementById('gameRoot');
+  const total = lvl.questions.length;
+
+  let emoji, title;
+  if(score === 100){ emoji = '🏆'; title = 'Sempurna!'; }
+  else if(score >= 80){ emoji = '🎉'; title = 'Hebat!'; }
+  else if(score >= 60){ emoji = '👍'; title = 'Bagus!'; }
+  else { emoji = '💪'; title = 'Terus Semangat!'; }
+
+  const nextLevel = LEVELS.find(l => l.id === lvl.id + 1);
+  const btnNextLevel = nextLevel
+    ? `<button class="btn btn-primary" id="btnNextLevel">🚀 Lanjut Zona Berikutnya</button>`
+    : '';
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="result-emoji">${emoji}</div>
+      <div class="result-title">${title}</div>
+      <div class="result-score">${score}%</div>
+      <div class="result-sub">Benar ${correct} dari ${total} soal</div>
+
+      <div class="result-badge">
+        <div class="bic">${lvl.badge.icon}</div>
+        <div class="bname">Badge Diperoleh: ${esc(lvl.badge.name)}</div>
+      </div>
+
+      ${allDone ? `
+        <div class="feedback ok" style="margin-bottom:12px;">
+          <b>🎊 Selamat, Kapten ${esc(game.playerName)}!</b><br>
+          Kamu telah menuntaskan seluruh 6 zona Misi Galaksi Atom.
+          Sertifikatmu sudah terbuka!
+        </div>` : ''}
+
+      <div class="btn-row" style="flex-direction:column;">
+        ${allDone ? `<button class="btn btn-primary" id="btnOpenCert">🏆 Lihat Sertifikat</button>` : ''}
+        ${btnNextLevel}
+        <button class="btn btn-ghost" id="btnBackMap2">🗺️ Peta Misi</button>
+      </div>
+    </div>
+  `;
+
+  const btnCert = document.getElementById('btnOpenCert');
+  if(btnCert) btnCert.addEventListener('click', ()=> switchPage('cert'));
+
+  const btnNext = document.getElementById('btnNextLevel');
+  if(btnNext) btnNext.addEventListener('click', ()=>{
+    openLevel(nextLevel.id);
+  });
+
+  const btnMap = document.getElementById('btnBackMap2');
+  if(btnMap) btnMap.addEventListener('click', ()=>{
+    currentLevelId = null;
+    renderMissionDashboard();
+  });
+
+  // Sertifikat terbuka otomatis setelah semua level tuntas
+  if(allDone){
+    setTimeout(()=>{
+      toast('🏆 Sertifikatmu sudah terbuka!');
+      switchPage('cert');
+    }, 3200);
+  }
+}
+
+/* ---------- 9.6 RESET ---------- */
+function resetMission(){
+  game = defaultGame();
+  saveGame();
+  currentLevelId = null;
+  currentQIndex = 0;
+  toast('🔄 Petualangan telah direset');
+  renderIntro();
+}
+
+/* ================================================================
+   BAGIAN 10 — HALAMAN SERTIFIKAT
+   ================================================================ */
+
+function renderCertificate(){
+  const root = document.getElementById('certRoot');
+  if(!root) return;
+
+  if(!isAllComplete()){
+    root.innerHTML = `
+      <div class="card locked-cert">
+        <div class="ic">🔒</div>
+        <h2>Sertifikat Belum Terbuka</h2>
+        <p>Selesaikan seluruh 6 level (5 Zona + Boss Challenge) untuk membuka sertifikat digitalmu.</p>
+        <button class="btn btn-primary" id="btnStartFromCert">🚀 Mulai Petualangan</button>
+      </div>
+    `;
+    const b = document.getElementById('btnStartFromCert');
+    if(b) b.addEventListener('click', ()=> switchPage('game'));
+    return;
+  }
+
+  const score = calculateScore();
+  const pred = getPredicate(score);
+  const appre = getAppreciation(pred);
+  const xp = calculateXP();
+  const tanggal = tanggalIndo(game.completedAt ? new Date(game.completedAt) : new Date());
+
+  // Badge pills
+  const badgesHtml = ALL_BADGES
+    .filter(b => game.badges.indexOf(b.id) !== -1)
+    .map(b => `<span class="cert-badge-pill">${b.icon} ${esc(b.name)}</span>`)
+    .join('');
+
+  root.innerHTML = `
+    <div class="cert-wrap">
+      <div class="cert">
+        <div class="cert-inner">
+
+          <!-- HEADER SEKOLAH -->
+          <div class="cert-head">
+            <div class="atom-ic">⚛️</div>
+            <div class="school">SMA SANTO PAULUS PONTIANAK</div>
+            <div class="akred">TERAKREDITASI A</div>
+          </div>
+          <div class="cert-line"></div>
+
+          <!-- JUDUL -->
+          <div class="cert-title">SERTIFIKAT PENUNTAS MISI</div>
+          <div class="cert-subtitle">Konfigurasi Elektron Model Atom Bohr</div>
+
+          <!-- NAMA -->
+          <div class="cert-give">Diberikan dengan bangga kepada:</div>
+          <div class="cert-name-wrap">
+            <div class="cert-name">${esc(game.playerName)}</div>
+          </div>
+
+          <!-- DESKRIPSI -->
+          <div class="cert-desc">
+            atas keberhasilannya menuntaskan <b>Misi Galaksi Atom</b> — petualangan
+            gamifikasi pembelajaran Kimia materi Konfigurasi Elektron Model Atom Bohr
+            untuk siswa Kelas X.
+          </div>
+
+          <!-- KOTAK SKOR -->
+          <div class="score-row">
+            <div class="score-box">
+              <div class="sl">NILAI</div>
+              <div class="sv ${pred.cls}">${score}</div>
+            </div>
+            <div class="score-box">
+              <div class="sl">PREDIKAT</div>
+              <div class="sv ${pred.cls}">${pred.code}</div>
+            </div>
+            <div class="score-box">
+              <div class="sl">LEVEL</div>
+              <div class="sv" style="color:#5c4100;">6/6</div>
+            </div>
+          </div>
+
+          <!-- APRESIASI -->
+          <div class="cert-appre">${esc(appre)}</div>
+
+          <!-- BADGE -->
+          <div class="cert-badges-t">BADGE YANG DIPEROLEH</div>
+          <div class="cert-badges">${badgesHtml || '<span class="cert-badge-pill">—</span>'}</div>
+
+          <!-- TANGGAL + SEAL -->
+          <div class="cert-footer">
+            <div class="cert-date">
+              <small>TANGGAL PENYELESAIAN</small>
+              Pontianak, ${tanggal}
+            </div>
+            <div class="cert-seal">🏆</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="no-print">
+      <div class="card">
+        <h3>📊 Ringkasan Misi</h3>
+        <p>Total XP: <b>${xp} / ${MAX_XP}</b></p>
+        <p>Nilai Akhir: <b>${score}</b> — Predikat <b>${pred.code}</b> (${pred.label})</p>
+        <p>Badge terkumpul: <b>${game.badges.length} / 6</b></p>
+      </div>
+      <div class="btn-row" style="flex-direction:column;">
+        <button class="btn btn-primary" id="btnPrintCert">🖨️ Cetak / Simpan PDF</button>
+        <button class="btn btn-ghost" id="btnBackToGame">🚀 Kembali</button>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+  `;
+
+  const btnPrint = document.getElementById('btnPrintCert');
+  if(btnPrint) btnPrint.addEventListener('click', ()=> window.print());
+
+  const btnBack = document.getElementById('btnBackToGame');
+  if(btnBack) btnBack.addEventListener('click', ()=> switchPage('game'));
+}
+
+/* ================================================================
+   BAGIAN 11 — INISIALISASI
+   ================================================================ */
+
+document.addEventListener('DOMContentLoaded', ()=>{
+
+  // 1) Muat data tersimpan
+  loadGame();
+
+  // 2) Navigasi tab
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> switchPage(btn.dataset.page));
+  });
+
+  // 3) Bangun latihan materi
+  buildPracticeSets();
+
+  // 4) Bangun grid unsur & info awal (tanpa 3D dulu)
+  buildElementGrid();
+  updateAtomInfo(currentZ);
+  updateDistribusi(currentZ);
+  document.querySelectorAll('.el-btn').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.z,10) === currentZ);
+  });
+
+  // 5) Tombol kontrol kamera 3D
+  const btnPause = document.getElementById('btnPause');
+  if(btnPause){
+    btnPause.addEventListener('click', ()=>{
+      camPaused = !camPaused;
+      btnPause.textContent = camPaused ? '▶️' : '⏸️';
+      btnPause.classList.toggle('on', camPaused);
+      toast(camPaused ? '⏸️ Rotasi kamera dihentikan' : '▶️ Rotasi kamera dilanjutkan');
+    });
+  }
+  const btnReset = document.getElementById('btnReset');
+  if(btnReset){
+    btnReset.addEventListener('click', ()=>{
+      camAngle = 0;
+      camRadius = camRadiusTarget;
+      camPaused = false;
+      if(btnPause){
+        btnPause.textContent = '⏸️';
+        btnPause.classList.remove('on');
+      }
+      toast('⟲ Tampilan kamera direset');
+    });
+  }
+
+  // 6) Render halaman game & sertifikat
+  if(game.started){
+    renderMissionDashboard();
+  } else {
+    renderIntro();
+  }
+  renderCertificate();
+
+  console.log('%c🚀 Misi Galaksi Atom siap!', 'color:#4fc3f7;font-weight:bold;font-size:14px;');
+});
+</script>
+</body>
+</html>
